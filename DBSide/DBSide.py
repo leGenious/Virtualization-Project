@@ -10,7 +10,6 @@
 
 import sys
 import time
-import requests
 import sqlite3
 
 # MQTT Broker
@@ -43,10 +42,8 @@ def main():
       def __init__(self, clientID):
          self.clientID = clientID
 
-         self.brokerAddress = "m16.cloudmqtt.com"  	# Broker Address
-         self.port = 19824                         	# Broker Port
-         self.username = "jjrjqtif"                 # Connection Username
-         self.password = "7maZnKmglGfG"            	# Connection Password
+         self.brokerAddress = "broker"  	# Broker Address
+         self.port = 1883                         	# Broker Port
          self.subTopic = "VirtualProject"
          self.entry_counter = 0
          self.DBPath = "/DB/data.db"
@@ -60,7 +57,7 @@ def main():
 #            print(ex)
 
       def on_connect(self, userdata, obj, flags, rc):
-         print("Connection Failed")
+         print("Connected")
 
       def on_disconnect(self, client, userdata, rc):
          print("Connection to MQTT brocker terminated")
@@ -108,7 +105,7 @@ def main():
          self.mqttClient.on_subscribe = self.on_subscribe
          self.mqttClient.on_log = self.on_log
 
-         self.mqttClient.username_pw_set(self.username,self.password)
+         #self.mqttClient.username_pw_set(self.username,self.password)
          try:
              self.mqttClient.connect(self.brokerAddress, self.port, 60)
              print ("Connected to MQTT Broker!")
@@ -120,34 +117,26 @@ def main():
          self.mqttClient.loop_start()
 
          while True:
-            try:
-               _ = requests.get(url, timeout=timeout)
-               print ("Internet is available!")
-
-               if internetConnection == 0:
-
-                  try:
-                     self.mqttClient.connect(self.brokerAddress, self.port, 60)
-                     print ("Connected to MQTT Broker!")
-                     internetConnection = 1
-                  except:
-                     print ("Can not Connect to Broker!")
-
-                  self.mqttClient.loop_start()
-                  self.mqttClient.subscribe(self.subTopic, 0)
-            except requests.ConnectionError:
-               internetConnection = 0
-               print ("Internet is not Available! Try When Available")
-
-
-            time.sleep(20)
+             pass
+#            try:
+#               self.mqttClient.connect(self.brokerAddress, self.port, 60)
+#               print ("Connected to MQTT Broker!")
+#               internetConnection = 1
+#            except:
+#               print ("Can not Connect to Broker!")
+#
+#            self.mqttClient.loop_start()
+#            self.mqttClient.subscribe(self.subTopic, 0)
+#
+#
+#            time.sleep(20)
          #logging.debug('Stopping MQTT')
 
  ############################################################################################
 
 
    # Connect to MQTT Broker
-   myMqtt = MyMQTTClass("Client2")
+   myMqtt = MyMQTTClass("DBClient")
    myMqtt.run()
 
 

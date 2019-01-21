@@ -45,10 +45,8 @@ def main():
 
          self.clientID = clientID
 
-         self.brokerAddress = "m16.cloudmqtt.com"      # Broker Address
-         self.port = 19824                             # Broker Port
-         self.username = "jjrjqtif"                     # Connection Username
-         self.password = "7maZnKmglGfG"                # Connection Password
+         self.brokerAddress = "broker"      # Broker Address
+         self.port = 1883                             # Broker Port
 
          self.pubTopic = "VirtualProject"
 
@@ -79,7 +77,7 @@ def main():
          self.mqttClient.on_connect = self.on_connect
          self.mqttClient.on_disconnect = self.on_disconnect
          self.mqttClient.on_publish = self.on_publish
-         self.mqttClient.username_pw_set(self.username,self.password)
+         #self.mqttClient.username_pw_set(self.username,self.password)
          self.mqttClient.on_log = self.on_log
 
          try:
