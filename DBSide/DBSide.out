@@ -1,0 +1,71 @@
+[DEBUG] (MainThread) Starting new HTTP connection (1): www.google.com
+[DEBUG] (MainThread) http://www.google.com:80 "GET / HTTP/1.1" 200 4860
+[DEBUG] (MainThread) Starting new HTTP connection (1): www.google.com
+[DEBUG] (MainThread) http://www.google.com:80 "GET / HTTP/1.1" 200 4880
+[DEBUG] (MainThread) Starting new HTTP connection (1): www.google.com
+[DEBUG] (MainThread) http://www.google.com:80 "GET / HTTP/1.1" 200 4870
+table primes already exists
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Connected to MQTT Broker!
+Sending SUBSCRIBE (d0, m1) [(b'VirtualProject', 0)]
+Received CONNACK (0, 0)
+Internet is available!
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Connected to MQTT Broker!
+Sending SUBSCRIBE (d0, m2) [(b'VirtualProject', 0)]
+Received CONNACK (1, 0)
+Received SUBACK
+Subscribed: 2 (0,)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Internet is available!
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Internet is available!
+Sending CONNECT (u1, p1, wr0, wq0, wf0, c0, k60) client_id=b'Client1'
+Received CONNACK (1, 0)
+Connection to MQTT brocker terminated
+Traceback (most recent call last):
+  File "DBSide.py", line 143, in <module>
+    main()
+  File "DBSide.py", line 139, in main
+    myMqtt.run()
+  File "DBSide.py", line 131, in run
+    time.sleep(20)
+KeyboardInterrupt
