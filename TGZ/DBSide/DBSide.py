@@ -8,8 +8,9 @@
  @note
 """
 
+import sys
 import time
-import sqlite3 # Database client
+import sqlite3
 
 # MQTT Broker
 import paho.mqtt.client as mqtt
@@ -42,11 +43,18 @@ def main():
          self.clientID = clientID
 
          self.brokerAddress = "broker"  	# Broker Address
-         self.port = 1883                       # Broker Port
-         self.subTopic = "VirtualProject"       # Topic
+         self.port = 1883                         	# Broker Port
+         self.subTopic = "VirtualProject"
          self.entry_counter = 0
          self.DBPath = "/DB/data.db"
          self.conn = 0
+#         try:
+#            self.conn = sqlite3.connect('data.db')
+#            self.c = self.conn.cursor()
+#            self.c.execute('''CREATE TABLE primes
+#                            (id numerical, prime text)''')
+#         except Exception as ex:
+#            print(ex)
 
       def on_connect(self, userdata, obj, flags, rc):
          print("Connected to broker")
@@ -55,25 +63,24 @@ def main():
          print("Connection to MQTT broker terminated")
 
       def on_message(self, userdata, obj, msg):
-         if not self.conn:
+         if (not self.conn):
             try:
                self.conn = sqlite3.connect(self.DBPath)
                self.c = self.conn.cursor()
                self.c.execute('''CREATE TABLE primes (id numerical, prime
-                     numerical)''')
+                     text)''')
             except Exception as ex:
                print(ex)
-
          self.entry_counter = self.entry_counter + 1
          strMsg = msg.payload.decode("utf-8", "ignore")
          print("MQTT Message   topic:" + msg.topic + " , Payload:" + strMsg)
          try:
             self.c.execute('''INSERT INTO primes (id, prime)
-                  VALUES ({}, "{}")'''.format(self.entry_counter , int(strMsg)))
+                  VALUES ({}, "{}")'''.format(self.entry_counter , strMsg))
             self.conn.commit()
          except sqlite3.OperationalError:
             self.c.execute('''CREATE TABLE primes (id numerical, prime
-                  numerical)''')
+                  text)''')
             self.entry_counter = 0
 
       def on_subscribe(self, userdata, obj, mid, granted_qos):
@@ -86,6 +93,11 @@ def main():
 
       def run(self):
 
+         # Check if Intenet Connection is available
+         internetConnection = 0
+         url='http://www.google.com/'
+         timeout=5
+
          self.mqttClient = mqtt.Client(self.clientID, clean_session=False)
          self.mqttClient.on_message = self.on_message
          self.mqttClient.on_connect = self.on_connect
@@ -93,6 +105,7 @@ def main():
          self.mqttClient.on_subscribe = self.on_subscribe
          self.mqttClient.on_log = self.on_log
 
+         #self.mqttClient.username_pw_set(self.username,self.password)
          try:
              self.mqttClient.connect(self.brokerAddress, self.port, 60)
              print ("Connected to MQTT broker!")
@@ -103,6 +116,21 @@ def main():
          self.mqttClient.subscribe(self.subTopic, 0)
          self.mqttClient.loop_forever()
 
+#         while True:
+#             pass
+#            try:
+#               self.mqttClient.connect(self.brokerAddress, self.port, 60)
+#               print ("Connected to MQTT Broker!")
+#               internetConnection = 1
+#            except:
+#               print ("Can not Connect to Broker!")
+#
+#            self.mqttClient.loop_start()
+#            self.mqttClient.subscribe(self.subTopic, 0)
+#
+#
+#            time.sleep(20)
+         #logging.debug('Stopping MQTT')
 
  ############################################################################################
 

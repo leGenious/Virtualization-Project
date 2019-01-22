@@ -1,5 +1,4 @@
 #!usr/bin/env python
-
 """
  @name  project
  @info  The program developed to communicate with XBee modules and MQTT broker.
@@ -9,23 +8,16 @@
         In the version source routing in xbee modules is applied.
  @ver   1.0
  @note
+ @author Baba Mehdi, Mehdi; Walsken, Daniel; Voss, Carina
 """
 
-import sys
-import queue
-import threading
 import time
-import requests
 import math
+import paho.mqtt.client as mqtt # MQTT Broker
 
-# MQTT Broker
-import paho.mqtt.client as mqtt
-
-# Logging
-import logging
+import logging                  # Logging
 logging.basicConfig(level=logging.DEBUG,
                       format='[%(levelname)s] (%(threadName)-9s) %(message)s',)
-
 
 def main():
 
@@ -46,33 +38,36 @@ def main():
          self.clientID = clientID
 
          self.brokerAddress = "broker"      # Broker Address
-         self.port = 1883                             # Broker Port
-
-         self.pubTopic = "VirtualProject"
+         self.port = 1883                   # Broker Port
+         self.pubTopic = "VirtualProject"   # Topic
+         self.maxprime = 1000000            # Maximum Prime to calculate
+         self.maxprime = 1000000            # Maximum Prime to calculate
 
       def on_connect(self, userdata, obj, flags, rc):
          print("Connected")
 
-
       def on_disconnect(self,client, userdata, rc):
          print("Connection to MQTT brocker terminated")
-
 
       def on_publish(self, userdata, obj, mid):
          print("mid: " + str(mid))
 
-
       def on_log(self, userdata, obj, level, string):
          print(string)
 
-
+      """
+      @name run
+      @info The run method of MyMQTTClass. It connects to the (remote) broker
+      under the address self.brokerAdress on port self.port and starts
+      generating prime numbers up to self.maxprime using the sieve of
+      erathostenes. Then it publishes them on the broker one at a time, with a
+      delay of 500 ms between each publish, to make it visually more appealing
+      """
       def run(self):
-
          self.mqttClient = mqtt.Client(self.clientID)
          self.mqttClient.on_connect = self.on_connect
          self.mqttClient.on_disconnect = self.on_disconnect
          self.mqttClient.on_publish = self.on_publish
-         #self.mqttClient.username_pw_set(self.username,self.password)
          self.mqttClient.on_log = self.on_log
 
          try:
@@ -81,56 +76,19 @@ def main():
          except:
             print ("Can not Connect to Broker!")
 
-         while True:
+         mark = [1 if i>=2 else 0 for i in range(self.maxprime)]
 
-            self.mqttClient.loop_start()
+         for i in range(2, int(math.sqrt(len(mark)))):
+            for j in range(i*i, len(mark), i):
+               mark[j] = 0
 
-            mark = [1 if i<2 else 0 for i in range(1000000)]
+         for i in range(2, len(mark)):
+            if mark[i]:
+               print(f"Publishing prime {i}")
+               self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
+               time.sleep(0.5)
 
-            for i in range(2, int(math.sqrt(len(mark)))):
-               for j in range(i*i, len(mark), i):
-                  mark[j] = 0
-
-            for i in range(2, len(mark)):
-               if mark[i]:
-                  print(f"{i}")
-                  self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
-                  time.sleep(0.5)
-
-#               marked = list(range(n+1))
-#
-#               for i in range(len(marked)):
-#                  marked[i] = False
-#
-#                  rootn = math.sqrt(n)
-#                  rootn = int(rootn)
-#
-#                  for k in range(2,rootn+1):
-#                      if marked[k] == False:
-#                      #print(k)
-#                          self.mqttClient.publish(self.pubTopic, str(k), qos = 0)
-#                          time.sleep(2)
-#                          for j in range(k*k, n+1, k):
-#                              marked[j] = True
-#
-#
-#                  for i in range(rootn+1, n-1):
-#                      if not (marked[i]):
-#                          print(i)
-#                          self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
-#                          time.sleep(2)
-
-
-            time.sleep(2)
          logging.debug('Stopping MQTT')
-
-
-
-
-
-
-   # The event used to stop MQTT class until first discovery of XBee network finishes
-
 
    # Connect to MQTT Broker
    myMqtt = MyMQTTClass("NumClient")
