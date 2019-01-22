@@ -61,8 +61,12 @@ colortheme:
 + Numerical side: prime-generator using the "**Sieve of Eratosthenes**"
 
 # Sources
+
 ## Image
-+ https://crate.io/a/getting-started-cratedb-mqtt-endpoint/
+
++ https://crate.io/a/getting-started-cratedb-mqtt-endpoint
+
+
 # The End
 __Thank you for your attention__
 
