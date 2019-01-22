@@ -68,11 +68,6 @@ def main():
 
       def run(self):
 
-         # Check if Intenet Connection is available
-         internetConnection = 0
-         url='http://www.google.com/'
-         timeout=5
-
          self.mqttClient = mqtt.Client(self.clientID)
          self.mqttClient.on_connect = self.on_connect
          self.mqttClient.on_disconnect = self.on_disconnect
@@ -83,49 +78,24 @@ def main():
          try:
             self.mqttClient.connect(self.brokerAddress, self.port, 60)
             print ("Connected to MQTT Broker!")
-            internetConnection = 1
          except:
             print ("Can not Connect to Broker!")
 
-         self.mqttClient.loop_start()
-
          while True:
 
-            try:
-               _ = requests.get(url, timeout=timeout)
-               print ("Internet is available!")
+            self.mqttClient.loop_start()
 
-               if not internetConnection:
+            mark = [1 if i<2 else 0 for i in range(1000000)]
 
-                  try:
-                     self.mqttClient.connect(self.brokerAddress, self.port, 60)
-                     print ("Connected to MQTT Broker!")
-                     internetConnection = 1
+            for i in range(2, int(math.sqrt(len(mark)))):
+               for j in range(i*i, len(mark), i):
+                  mark[j] = 0
 
-                  except:
-                     print ("Can not Connect to Broker!")
-
-                  self.mqttClient.loop_start()
-
-            except requests.ConnectionError:
-               internetConnection = 0
-               print ("Internet is not Available! Try When Available")
-
-            if internetConnection == 1:
-               n = 1000
-
-
-               mark = [1 for i in range(1000000)]
-
-               for i in range(2, int(math.sqrt(len(mark)))):
-                  for j in range(i*i, len(mark), i):
-                     mark[j] = 0
-
-               for i in range(len(mark)):
-                  if mark[i]:
-                     print(f"{i}")
-                     self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
-                     time.sleep(0.5)
+            for i in range(2, len(mark)):
+               if mark[i]:
+                  print(f"{i}")
+                  self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
+                  time.sleep(0.5)
 
 #               marked = list(range(n+1))
 #
