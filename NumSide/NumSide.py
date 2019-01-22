@@ -40,7 +40,7 @@ def main():
          self.brokerAddress = "broker"      # Broker Address
          self.port = 1883                   # Broker Port
          self.pubTopic = "VirtualProject"   # Topic
-         self.maxprime = 100000000            # Maximum Prime to calculate
+         self.maxprime = 10000000            # Maximum Prime to calculate
 
       def on_connect(self, userdata, obj, flags, rc):
          print("Connected")

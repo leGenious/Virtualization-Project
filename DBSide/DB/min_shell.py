@@ -1,6 +1,7 @@
 # A minimal SQLite shell for experiments
 
 import sqlite3
+import pprint
 
 con = sqlite3.connect("data.db")
 con.isolation_level = None
@@ -23,7 +24,7 @@ while True:
         cur.execute(buff)
 
         if buff.lstrip().upper().startswith("SELECT"):
-            print(cur.fetchall())
+            pprint.pprint(cur.fetchall())
     except sqlite3.Error as e:
         print("An error occurred:", e.args[0])
     buff = ""
