@@ -57,10 +57,10 @@ def main():
 #            print(ex)
 
       def on_connect(self, userdata, obj, flags, rc):
-         print("Connected")
+         print("Connected to broker")
 
       def on_disconnect(self, client, userdata, rc):
-         print("Connection to MQTT brocker terminated")
+         print("Connection to MQTT broker terminated")
 
       def on_message(self, userdata, obj, msg):
          if (not self.conn):
@@ -108,16 +108,16 @@ def main():
          #self.mqttClient.username_pw_set(self.username,self.password)
          try:
              self.mqttClient.connect(self.brokerAddress, self.port, 60)
-             print ("Connected to MQTT Broker!")
+             print ("Connected to MQTT broker!")
 
          except:
-             print ("Can not Connect to Broker!")
+             print ("Can not Connect to broker!")
 
          self.mqttClient.subscribe(self.subTopic, 0)
-         self.mqttClient.loop_start()
+         self.mqttClient.loop_forever()
 
-         while True:
-             pass
+#         while True:
+#             pass
 #            try:
 #               self.mqttClient.connect(self.brokerAddress, self.port, 60)
 #               print ("Connected to MQTT Broker!")

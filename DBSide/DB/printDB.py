@@ -1,4 +1,5 @@
 import sqlite3
+import time
 
 def read_data(conn):
     c = conn.cursor()
@@ -18,7 +19,16 @@ def write_something(conn, sth):
             "{}")""".format(sth[0], sth[1]))
     conn.commit()
 
-with connect("data.db") as conn:
-    for i in read_data(conn):
-        print(i)
+def main():
+    with connect("data.db") as conn:
+        data = read_data(conn)
+        time.sleep(1)
+        while True:
+            if read_data != data:
+                time.sleep(5)
+                data = read_data(conn)
+                for i in read_data(conn):
+                    print(i[1])
 
+if __name__ == "__main__":
+    main()
