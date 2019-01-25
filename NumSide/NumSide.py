@@ -39,7 +39,7 @@ def main():
          self.port = 1883                   # Broker Port
          self.pubTopic = "VirtualProject"   # Topic
          self.maxprime = 10000000           # Maximum Prime to calculate
-         self.waittime = 0.0001             # Time to wait between each publish
+         self.waittime = 0.001             # Time to wait between each publish
 
       def on_connect(self, userdata, obj, flags, rc):
          print("Connected")
