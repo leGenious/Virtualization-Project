@@ -20,8 +20,6 @@ logging.basicConfig(level=logging.DEBUG,
                       format='[%(levelname)s] (%(threadName)-9s) %(message)s',)
 
 def main():
-
-   ####################################################################################
    """
     @name  MyMQTTClass
     @info  The class developed to communicate to MQTT broker.
@@ -40,7 +38,8 @@ def main():
          self.brokerAddress = "broker"      # Broker Address
          self.port = 1883                   # Broker Port
          self.pubTopic = "VirtualProject"   # Topic
-         self.maxprime = 10000000            # Maximum Prime to calculate
+         self.maxprime = 10000000           # Maximum Prime to calculate
+         self.waittime = 0.0001             # Time to wait between each publish
 
       def on_connect(self, userdata, obj, flags, rc):
          print("Connected")
@@ -73,19 +72,22 @@ def main():
             self.mqttClient.connect(self.brokerAddress, self.port, 60)
             print ("Connected to MQTT Broker!")
          except:
-            print ("Can not Connect to Broker!")
+            print ("Can not Connect to Broker!", file=sys.stderr)
 
+         print("Making list of numbers")
          mark = [1 if i>=2 else 0 for i in range(self.maxprime)]
 
+         print("Finding primes in the numberlist")
          for i in range(2, int(math.sqrt(len(mark)))):
             for j in range(i*i, len(mark), i):
                mark[j] = 0
 
+         print("Publishing primes now")
          for i in range(2, len(mark)):
             if mark[i]:
                print(f"Publishing prime {i}")
-               self.mqttClient.publish(self.pubTopic, str(i), qos = 0)
-               time.sleep(0.5)
+               self.mqttClient.publish(self.pubTopic, i, qos = 0)
+               time.sleep(self.waittime)
 
          logging.debug('Stopping MQTT')
 
