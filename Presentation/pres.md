@@ -21,14 +21,14 @@ colortheme:
 + Can be run on multiple machines
 + No (easy) way to make the output thread coherent
 
+# What is MQTT
+
 ## Problem 2
 
 + Many databases
 	+ need the same data
 	+ need data from remote location
-+ Need to be up to date every time they connect
-
-# What is MQTT
++ Need to be synched every time they connect to the internet
 
 ## Problem 3
 
