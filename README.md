@@ -22,3 +22,11 @@ It will recreate the table if something terrible happens to the database (e.g. e
 
 The numerical side of the project is a sieve of erastothernes.
 It will generate a list of prime numbers and publish them (with a short delay) on the Topic.
+
+## print.py & others
+
+In the directory of the database there are a few scripts to visualize the data getting written to the db.
+The print.py script will print the whole database and loop forever, printing additions to the database.
+The min_shell.py script offers a minimal shell to the database, where you can run commands to get data from the table.
+It is by large copied from the sqlite3 tutorial page.
+The printDB.py script is very minimal and inefficient, since it prints the whole database every second to the screen.
