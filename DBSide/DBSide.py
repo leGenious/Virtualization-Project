@@ -49,6 +49,7 @@ def main():
          self.brokerconn = False                 # Connection to broker
 
       def on_connect(self, userdata, obj, flags, rc):
+         self.mqttClient.subscribe(self.subTopic, 0)
          print("Connected to broker")
 
       def on_disconnect(self, client, userdata, rc):
